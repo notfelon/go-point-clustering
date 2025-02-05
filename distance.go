@@ -15,10 +15,10 @@ const (
 //
 // Result is distance in kilometers
 func DistanceSpherical(p1, p2 *Point) float64 {
-	v1 := (p1.xy[1] - p2.xy[1]) * DegreeRad
+	v1 := (p1.XY[1] - p2.XY[1]) * DegreeRad
 	v1 = v1 * v1
 
-	v2 := (p1.xy[0] - p2.xy[0]) * DegreeRad * math.Cos((p1.xy[1]+p2.xy[1])/2.0*DegreeRad)
+	v2 := (p1.XY[0] - p2.XY[0]) * DegreeRad * math.Cos((p1.XY[1]+p2.XY[1])/2.0*DegreeRad)
 	v2 = v2 * v2
 
 	return EarthR * math.Sqrt(v1+v2)
@@ -60,8 +60,8 @@ func FastCos(x float64) float64 {
 // In this library eps (distance) is adjusted so that we don't need
 // to do sqrt and multiplication
 func DistanceSphericalFast(p1, p2 *Point) float64 {
-	v1 := (p1.xy[1] - p2.xy[1])
-	v2 := (p1.xy[0] - p2.xy[0]) * FastCos((p1.xy[1]+p2.xy[1])/2.0*DegreeRad)
+	v1 := (p1.XY[1] - p2.XY[1])
+	v2 := (p1.XY[0] - p2.XY[0]) * FastCos((p1.XY[1]+p2.XY[1])/2.0*DegreeRad)
 
 	return v1*v1 + v2*v2
 }

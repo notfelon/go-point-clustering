@@ -44,7 +44,7 @@ func (tree *KDTree) insert(t *T, depth int, n *T) *T {
 		n.left, n.right = nil, nil
 		return n
 	}
-	if tree.Points[n.PointID].xy[t.split] < tree.Points[t.PointID].xy[t.split] {
+	if tree.Points[n.PointID].XY[t.split] < tree.Points[t.PointID].XY[t.split] {
 		t.left = tree.insert(t.left, depth+1, n)
 	} else {
 		t.right = tree.insert(t.right, depth+1, n)
@@ -68,7 +68,7 @@ func (tree *KDTree) inRange(t *T, pt *Point, r float64, nodes []int) []int {
 		return nodes
 	}
 
-	diff := pt.xy[t.split] - tree.Points[t.PointID].xy[t.split]
+	diff := pt.XY[t.split] - tree.Points[t.PointID].XY[t.split]
 
 	thisSide, otherSide := t.right, t.left
 	if diff < 0 {
@@ -76,12 +76,12 @@ func (tree *KDTree) inRange(t *T, pt *Point, r float64, nodes []int) []int {
 	}
 
 	p1 := Point{}
-	p1.xy[1-t.split] = (pt.xy[1-t.split] + tree.Points[t.PointID].xy[1-t.split]) / 2
-	p1.xy[t.split] = pt.xy[t.split]
+	p1.XY[1-t.split] = (pt.XY[1-t.split] + tree.Points[t.PointID].XY[1-t.split]) / 2
+	p1.XY[t.split] = pt.XY[t.split]
 
 	p2 := Point{}
-	p2.xy[1-t.split] = (pt.xy[1-t.split] + tree.Points[t.PointID].xy[1-t.split]) / 2
-	p2.xy[t.split] = tree.Points[t.PointID].xy[t.split]
+	p2.XY[1-t.split] = (pt.XY[1-t.split] + tree.Points[t.PointID].XY[1-t.split]) / 2
+	p2.XY[t.split] = tree.Points[t.PointID].XY[t.split]
 
 	dist := p1.sqDist(&p2)
 
@@ -178,16 +178,16 @@ func preSort(points PointList) *preSorted {
 // median node value on the given splitting dimension.
 func (p *preSorted) splitMed(dim int) (med int, equal []int, left, right preSorted) {
 	m := len(p.cur[dim]) / 2
-	for m > 0 && p.points[p.cur[dim][m-1]].xy[dim] == p.points[p.cur[dim][m]].xy[dim] {
+	for m > 0 && p.points[p.cur[dim][m-1]].XY[dim] == p.points[p.cur[dim][m]].XY[dim] {
 		m--
 	}
 	mh := m
-	for mh < len(p.cur[dim])-1 && p.points[p.cur[dim][mh+1]].xy == p.points[p.cur[dim][m]].xy {
+	for mh < len(p.cur[dim])-1 && p.points[p.cur[dim][mh+1]].XY == p.points[p.cur[dim][m]].XY {
 		mh++
 	}
 	med = p.cur[dim][m]
 	equal = p.cur[dim][m+1 : mh+1]
-	pivot := p.points[med].xy[dim]
+	pivot := p.points[med].XY[dim]
 
 	left.points = p.points
 	left.cur[dim] = p.cur[dim][:m]
@@ -217,7 +217,7 @@ func (p *preSorted) splitMed(dim int) (med int, equal []int, left, right preSort
 			if skip {
 				continue
 			}
-			if p.points[n].xy[dim] < pivot {
+			if p.points[n].XY[dim] < pivot {
 				left.cur[d] = append(left.cur[d], n)
 			} else {
 				right.cur[d] = append(right.cur[d], n)
@@ -245,9 +245,9 @@ func (n *nodeSorter) Swap(i, j int) {
 }
 
 func (n *nodeSorter) Less(i, j int) bool {
-	a, b := n.points[n.nodes[i]].xy[n.split], n.points[n.nodes[j]].xy[n.split]
+	a, b := n.points[n.nodes[i]].XY[n.split], n.points[n.nodes[j]].XY[n.split]
 	if a == b {
-		return n.points[n.nodes[i]].xy[1-n.split] < n.points[n.nodes[j]].xy[1-n.split]
+		return n.points[n.nodes[i]].XY[1-n.split] < n.points[n.nodes[j]].XY[1-n.split]
 	}
 	return a < b
 }

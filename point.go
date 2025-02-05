@@ -23,12 +23,12 @@ func (a *Point) sqDist(b *Point) float64 {
 
 // LessEq - a <= b
 func (a *Point) LessEq(b *Point) bool {
-	return a.xy[0] <= b.xy[0] && a.xy[1] <= b.xy[1]
+	return a.XY[0] <= b.XY[0] && a.XY[1] <= b.XY[1]
 }
 
 // GreaterEq - a >= b
 func (a *Point) GreaterEq(b *Point) bool {
-	return a.xy[0] >= b.xy[0] && a.xy[1] >= b.xy[1]
+	return a.XY[0] >= b.XY[0] && a.XY[1] >= b.XY[1]
 }
 
 // CentroidAndBounds calculates center and cluster bounds
@@ -45,20 +45,20 @@ func (c *Cluster) CentroidAndBounds(points PointList) (center, min, max Point) {
 	for _, i := range c.Points {
 		pt := points[i]
 
-		for j := range pt.xy {
-			center.xy[j] += pt.xy[j]
+		for j := range pt.XY {
+			center.XY[j] += pt.XY[j]
 
-			if pt.xy[j] < min.xy[j] {
-				min.xy[j] = pt.xy[j]
+			if pt.XY[j] < min.XY[j] {
+				min.XY[j] = pt.XY[j]
 			}
-			if pt.xy[j] > max.xy[j] {
-				max.xy[j] = pt.xy[j]
+			if pt.XY[j] > max.XY[j] {
+				max.XY[j] = pt.XY[j]
 			}
 		}
 	}
 
-	for j := range center.xy {
-		center.xy[j] /= float64(len(c.Points))
+	for j := range center.XY {
+		center.XY[j] /= float64(len(c.Points))
 	}
 
 	return

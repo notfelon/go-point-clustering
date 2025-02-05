@@ -13,8 +13,8 @@ func BenchmarkInsert(b *testing.B) {
 	b.StopTimer()
 	pts := make([]Point, b.N)
 	for i := range pts {
-		for j := range pts[i].xy {
-			pts[i].xy[j] = rand.Float64()
+		for j := range pts[i].XY {
+			pts[i].XY[j] = rand.Float64()
 		}
 	}
 
@@ -40,8 +40,8 @@ func insertSz(sz int, b *testing.B) {
 	b.StopTimer()
 	pts := make([]Point, sz)
 	for i := range pts {
-		for j := range pts[i].xy {
-			pts[i].xy[j] = rand.Float64()
+		for j := range pts[i].XY {
+			pts[i].XY[j] = rand.Float64()
 		}
 	}
 
@@ -71,8 +71,8 @@ func makeSz(sz int, b *testing.B) {
 	b.StopTimer()
 	pts := make([]Point, sz)
 	for i := range pts {
-		for j := range pts[i].xy {
-			pts[i].xy[j] = rand.Float64()
+		for j := range pts[i].XY {
+			pts[i].XY[j] = rand.Float64()
 		}
 	}
 
@@ -98,16 +98,16 @@ func newInRangeSz(sz int, b *testing.B) {
 	b.StopTimer()
 	pts := make(PointList, sz)
 	for i := range pts {
-		for j := range pts[i].xy {
-			pts[i].xy[j] = rand.Float64()
+		for j := range pts[i].XY {
+			pts[i].XY[j] = rand.Float64()
 		}
 	}
 	tree := NewKDTree(pts)
 
 	points := make([]Point, b.N)
 	for i := range points {
-		for j := range points[i].xy {
-			points[i].xy[j] = rand.Float64()
+		for j := range points[i].XY {
+			points[i].XY[j] = rand.Float64()
 		}
 	}
 	rs := make([]float64, b.N)
@@ -140,16 +140,16 @@ func insertInRangeSz(sz int, b *testing.B) {
 
 	for i := 0; i < sz; i++ {
 		var pt Point
-		for j := range pt.xy {
-			pt.xy[j] = rand.Float64()
+		for j := range pt.XY {
+			pt.XY[j] = rand.Float64()
 		}
 		tree.Insert(pt)
 	}
 
 	points := make([]Point, b.N)
 	for i := range points {
-		for j := range points[i].xy {
-			points[i].xy[j] = rand.Float64()
+		for j := range points[i].XY {
+			points[i].XY[j] = rand.Float64()
 		}
 	}
 	rs := make([]float64, b.N)
@@ -177,15 +177,15 @@ func inRangeLinearSz(sz int, b *testing.B) {
 	b.StopTimer()
 	pts := make([]Point, sz)
 	for i := range pts {
-		for j := range pts[i].xy {
-			pts[i].xy[j] = rand.Float64()
+		for j := range pts[i].XY {
+			pts[i].XY[j] = rand.Float64()
 		}
 	}
 
 	points := make([]Point, b.N)
 	for i := range points {
-		for j := range points[i].xy {
-			points[i].xy[j] = rand.Float64()
+		for j := range points[i].XY {
+			points[i].XY[j] = rand.Float64()
 		}
 	}
 	rs := make([]float64, b.N)
