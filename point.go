@@ -3,8 +3,8 @@ package cluster
 
 // Point is longitue, latittude
 type Point struct {
-	xy   [2]float64
-	data []string
+	XY   [2]float64
+	Data []string
 }
 
 // PointList is a slice of Points
