@@ -1,4 +1,4 @@
-module github.com/smira/go-point-clustering
+module github.com/notfelon/go-point-clustering
 
 go 1.12
 
