@@ -27,8 +27,8 @@ func (s *DBScanSuite) SetUpTest(c *C) {
 	s.points = make(PointList, len(pts))
 
 	for i := 0; i < len(pts); i++ {
-		s.points[i][0] = pts[i][0]
-		s.points[i][1] = pts[i][1]
+		s.points[i].xy[0] = pts[i][0]
+		s.points[i].xy[1] = pts[i][1]
 	}
 }
 

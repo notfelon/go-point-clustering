@@ -13,8 +13,8 @@ type DistanceSuite struct {
 var _ = Suite(&DistanceSuite{})
 
 func (s *DistanceSuite) SetUpTest(c *C) {
-	s.p1 = Point{30.244759, 59.955982}
-	s.p2 = Point{30.24472, 59.955975}
+	s.p1 = Point{[2]float64{30.244759, 59.955982}, nil}
+	s.p2 = Point{[2]float64{30.24472, 59.955975}, nil}
 }
 
 func (s *DistanceSuite) TestFastCos(c *C) {

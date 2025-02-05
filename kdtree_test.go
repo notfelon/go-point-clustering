@@ -15,8 +15,8 @@ type pointSlice []Point
 func (pointSlice) Generate(r *rand.Rand, size int) reflect.Value {
 	ps := make([]Point, size)
 	for i := range ps {
-		for j := range ps[i] {
-			ps[i][j] = r.Float64()
+		for j := range ps[i].xy {
+			ps[i].xy[j] = r.Float64()
 		}
 	}
 	return reflect.ValueOf(ps)
@@ -24,8 +24,8 @@ func (pointSlice) Generate(r *rand.Rand, size int) reflect.Value {
 
 // Generate implements the Generator interface for Points
 func (p Point) Generate(r *rand.Rand, _ int) reflect.Value {
-	for i := range p {
-		p[i] = r.Float64()
+	for i := range p.xy {
+		p.xy[i] = r.Float64()
 	}
 	return reflect.ValueOf(p)
 }
@@ -99,7 +99,7 @@ func (tree *KDTree) invariantHolds(t *T) ([]Point, bool) {
 	ok := true
 
 	for _, i := range t.EqualIDs {
-		if tree.Points[i] != tree.Points[t.PointID] {
+		if tree.Points[i].xy != tree.Points[t.PointID].xy {
 			ok = false
 			break
 		}
@@ -112,7 +112,7 @@ func (tree *KDTree) invariantHolds(t *T) ([]Point, bool) {
 
 	if ok {
 		for _, l := range left {
-			if l[t.split] >= tree.Points[t.PointID][t.split] {
+			if l.xy[t.split] >= tree.Points[t.PointID].xy[t.split] {
 				ok = false
 				break
 			}
@@ -120,7 +120,7 @@ func (tree *KDTree) invariantHolds(t *T) ([]Point, bool) {
 	}
 	if ok {
 		for _, r := range right {
-			if r[t.split] < tree.Points[t.PointID][t.split] {
+			if r.xy[t.split] < tree.Points[t.PointID].xy[t.split] {
 				ok = false
 				break
 			}
@@ -157,7 +157,7 @@ func TestPreSort_SplitMed(t *testing.T) {
 		sorted := preSort(PointList(pts))
 		med, equal, left, right := sorted.splitMed(dim)
 		for _, p := range equal {
-			if pts[p] != pts[med] {
+			if pts[p].xy != pts[med].xy {
 				return false
 			}
 		}
@@ -175,9 +175,9 @@ func TestPreSort_SplitMed(t *testing.T) {
 					return false
 				}
 				for _, n := range ns {
-					if i == 0 && pts[n][dim] >= pts[med][dim] {
+					if i == 0 && pts[n].xy[dim] >= pts[med].xy[dim] {
 						return false
-					} else if i == 1 && pts[n][dim] < pts[med][dim] {
+					} else if i == 1 && pts[n].xy[dim] < pts[med].xy[dim] {
 						return false
 					}
 				}
@@ -196,12 +196,12 @@ func isSortedOnDim(dim int, nodes []int, pts pointSlice) bool {
 	if len(nodes) == 0 {
 		return true
 	}
-	prev := pts[nodes[0]][dim]
+	prev := pts[nodes[0]].xy[dim]
 	for _, n := range nodes {
-		if pts[n][dim] < prev {
+		if pts[n].xy[dim] < prev {
 			return false
 		}
-		prev = pts[n][dim]
+		prev = pts[n].xy[dim]
 	}
 	return true
 }

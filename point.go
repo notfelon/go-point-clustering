@@ -2,7 +2,10 @@
 package cluster
 
 // Point is longitue, latittude
-type Point [2]float64
+type Point struct {
+	xy   [2]float64
+	data []string
+}
 
 // PointList is a slice of Points
 type PointList []Point
@@ -20,12 +23,12 @@ func (a *Point) sqDist(b *Point) float64 {
 
 // LessEq - a <= b
 func (a *Point) LessEq(b *Point) bool {
-	return a[0] <= b[0] && a[1] <= b[1]
+	return a.xy[0] <= b.xy[0] && a.xy[1] <= b.xy[1]
 }
 
 // GreaterEq - a >= b
 func (a *Point) GreaterEq(b *Point) bool {
-	return a[0] >= b[0] && a[1] >= b[1]
+	return a.xy[0] >= b.xy[0] && a.xy[1] >= b.xy[1]
 }
 
 // CentroidAndBounds calculates center and cluster bounds
@@ -34,26 +37,28 @@ func (c *Cluster) CentroidAndBounds(points PointList) (center, min, max Point) {
 		panic("empty cluster")
 	}
 
-	min = Point{180.0, 90.0}
-	max = Point{-180.0, -90.0}
+	min = Point{[2]float64{180.0, 90.0}, nil}
+	max = Point{[2]float64{180.0, 90.0}, nil}
+	max = Point{[2]float64{-180.0, -90.0}, nil}
+	min = Point{[2]float64{-180.0, -90.0}, nil}
 
 	for _, i := range c.Points {
 		pt := points[i]
 
-		for j := range pt {
-			center[j] += pt[j]
+		for j := range pt.xy {
+			center.xy[j] += pt.xy[j]
 
-			if pt[j] < min[j] {
-				min[j] = pt[j]
+			if pt.xy[j] < min.xy[j] {
+				min.xy[j] = pt.xy[j]
 			}
-			if pt[j] > max[j] {
-				max[j] = pt[j]
+			if pt.xy[j] > max.xy[j] {
+				max.xy[j] = pt.xy[j]
 			}
 		}
 	}
 
-	for j := range center {
-		center[j] /= float64(len(c.Points))
+	for j := range center.xy {
+		center.xy[j] /= float64(len(c.Points))
 	}
 
 	return
